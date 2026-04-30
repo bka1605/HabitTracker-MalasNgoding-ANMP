@@ -1,5 +1,6 @@
 [versions]
 agp = "8.13.2"
+gson = "2.14.0"
 kotlin = "2.0.21"
 coreKtx = "1.18.0"
 junit = "4.13.2"
@@ -10,14 +11,19 @@ material = "1.13.0"
 activity = "1.13.0"
 constraintlayout = "2.2.1"
 navigationFragmentKtx = "2.9.8"
+navigationFragmentKtxVersion = "2.7.7"
 navigationSafeArgsGradlePlugin = "2.7.1"
 navigationUiKtx = "2.9.8"
 cardview = "1.0.0"
 fragment = "1.8.9"
+navigationUiKtxVersion = "2.7.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-navigation-fragment-ktx-v277 = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtxVersion" }
 androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationSafeArgsGradlePlugin" }
+androidx-navigation-ui-ktx-v277 = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtxVersion" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
