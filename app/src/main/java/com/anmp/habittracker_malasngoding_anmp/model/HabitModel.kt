@@ -8,5 +8,5 @@ data class HabitModel(
     val unit: String,
     val icon: String,
     var progress: Int = 0,
-    val isCompleted: Boolean = false
+    var isCompleted: Boolean = false
 )

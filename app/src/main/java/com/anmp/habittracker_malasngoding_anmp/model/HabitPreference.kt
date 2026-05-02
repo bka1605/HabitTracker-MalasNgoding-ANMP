@@ -32,7 +32,9 @@ class HabitPreference(context: Context) {
         val idx = list.indexOfFirst { it.id == habitId }
         if (idx != -1) {
             val habit = list[idx]
-            habit.progress = newProgress
+            habit.progress = newProgress.coerceIn(0, habit.goal)
+            habit.isCompleted = habit.progress >= habit.goal
+
             val json = gson.toJson(list)
             sharedPref.edit { putString(HABIT_KEY, json) }
         }
