@@ -26,4 +26,15 @@ class HabitPreference(context: Context) {
         val type = object : TypeToken<List<HabitModel>>() {}.type
         return gson.fromJson(json, type)
     }
+
+    fun updateHabitProgress(habitId: Long, newProgress: Int) {
+        val list = getHabits().toMutableList()
+        val idx = list.indexOfFirst { it.id == habitId }
+        if (idx != -1) {
+            val habit = list[idx]
+            habit.progress = newProgress
+            val json = gson.toJson(list)
+            sharedPref.edit { putString(HABIT_KEY, json) }
+        }
+    }
 }

@@ -6,10 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".view.DashboardFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recViewDashboard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:clipToPadding="false"
+        android:paddingTop="?attr/actionBarSize"
+        android:paddingBottom="120dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddHabit"
@@ -19,6 +22,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="40dp"
         android:clickable="true"
-        android:src="@drawable/twotone_add_24"  />
+        android:src="@drawable/twotone_add_24" />
 
 </FrameLayout>

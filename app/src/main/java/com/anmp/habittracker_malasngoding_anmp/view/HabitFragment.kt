@@ -43,6 +43,7 @@ class HabitFragment : Fragment() {
             val icon = binding.spinnerIcon.text.toString()
 
             val habit = HabitModel(
+                id = System.currentTimeMillis(),
                 habitName = name,
                 shortDescription = desc,
                 goal = goal,
