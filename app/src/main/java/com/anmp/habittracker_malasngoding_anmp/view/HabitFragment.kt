@@ -1,7 +1,6 @@
 package com.anmp.habittracker_malasngoding_anmp.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,9 +65,6 @@ class HabitFragment : Fragment() {
             )
 
             viewModel.saveHabit(habit)
-
-            Log.d("HABIT_DEBUG", "Habit berhasil disimpan:")
-            Log.d("HABIT_DEBUG", habit.toString())
 
             Toast.makeText(
                 requireContext(),
