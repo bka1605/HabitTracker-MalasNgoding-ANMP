@@ -34,7 +34,7 @@ class HabitFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[CreateHabitViewModel::class.java]
 
-        val iconOptions = listOf("Fitness", "Water", "Study", "meditation")
+        val iconOptions = listOf("Fitness", "Water", "Study", "Meditation")
 
         val iconAdapter = ArrayAdapter(
             requireContext(),

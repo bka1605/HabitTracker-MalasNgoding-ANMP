@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.anmp.habittracker_malasngoding_anmp.databinding.DashboardItemListBinding
 import com.anmp.habittracker_malasngoding_anmp.model.HabitModel
+import com.anmp.habittracker_malasngoding_anmp.R
 
 class DashboardAdapter (
     private val onPlus: (HabitModel) -> Unit,
@@ -40,7 +41,13 @@ class DashboardAdapter (
 
         b.progressHabit.max = habit.goal
         b.progressHabit.progress = habit.progress
-        b.imageView2.setImageResource(iconNameToRes(habit.icon))
+        when (habit.icon) {
+            "Water" -> b.imageView2.setImageResource(R.drawable.water)
+            "Fitness" -> b.imageView2.setImageResource(R.drawable.ic_fitness)
+            "Study" -> b.imageView2.setImageResource(R.drawable.ic_book)
+            "Meditation" -> b.imageView2.setImageResource(R.drawable.ic_meditasi)
+            else -> b.imageView2.setImageResource(R.drawable.ic_launcher_foreground)
+        }
 
         if (habit.isCompleted) {
             b.tvStatus.text = "Completed"
