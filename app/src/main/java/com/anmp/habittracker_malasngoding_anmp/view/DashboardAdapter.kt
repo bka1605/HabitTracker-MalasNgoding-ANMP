@@ -18,7 +18,7 @@ class DashboardAdapter (
         notifyDataSetChanged()
     }
 
-    inner class HabitVH(val binding: DashboardItemListBinding) :
+    class HabitVH(val binding: DashboardItemListBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HabitVH {
@@ -40,6 +40,7 @@ class DashboardAdapter (
 
         b.progressHabit.max = habit.goal
         b.progressHabit.progress = habit.progress
+        b.imageView2.setImageResource(iconNameToRes(habit.icon))
 
         if (habit.isCompleted) {
             b.tvStatus.text = "Completed"

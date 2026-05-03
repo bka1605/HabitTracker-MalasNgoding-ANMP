@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -33,6 +34,19 @@ class HabitFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[CreateHabitViewModel::class.java]
+
+        val iconOptions = listOf("Fitness", "Water", "Study", "meditation")
+
+        val iconAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            iconOptions
+        )
+
+        binding.spinnerIcon.setAdapter(iconAdapter)
+
+
+        binding.spinnerIcon.setText(iconOptions.first(), false)
 
         binding.btnCreateHabit.setOnClickListener {
 
