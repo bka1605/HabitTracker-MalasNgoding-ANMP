@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.anmp.habittracker_malasngoding_anmp.databinding.FragmentLoginBinding
 import com.anmp.habittracker_malasngoding_anmp.viewmodel.LoginViewModel
 
@@ -31,17 +32,34 @@ class LoginFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
+        viewModel.seedDummyUser()
+
         binding.btnLogin.setOnClickListener {
             viewModel.Login(binding.txtUsername.text.toString(), binding.txtPassword.text.toString())
         }
 
-        viewModel.loginStatus.observe(viewLifecycleOwner, Observer { isSuccess ->
-            if (isSuccess) {
+//        viewModel.loginStatus.observe(viewLifecycleOwner, Observer { isSuccess ->
+//            if (isSuccess) {
+//                val action = LoginFragmentDirections.actionDashboardFragment()
+//                Navigation.findNavController(view).navigate(action)
+//            } else {
+//                Toast.makeText(context, "Username atau Password salah!", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+
+        observeViewModel()
+    }
+
+    fun observeViewModel(){
+        viewModel.loginResultLD.observe(viewLifecycleOwner, Observer {
+            if (it) {
                 val action = LoginFragmentDirections.actionDashboardFragment()
-                Navigation.findNavController(view).navigate(action)
+                findNavController().navigate(action)
             } else {
-                Toast.makeText(context, "Username atau Password salah!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Username atau password salah", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
+
 }

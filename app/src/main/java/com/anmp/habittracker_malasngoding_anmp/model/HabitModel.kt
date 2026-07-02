@@ -1,6 +1,11 @@
 package com.anmp.habittracker_malasngoding_anmp.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "habit")
 data class HabitModel(
+    @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val habitName: String,
     val shortDescription: String,
