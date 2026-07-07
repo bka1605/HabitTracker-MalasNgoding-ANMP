@@ -37,16 +37,16 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             viewModel.Login(binding.txtUsername.text.toString(), binding.txtPassword.text.toString())
         }
-
-//        viewModel.loginStatus.observe(viewLifecycleOwner, Observer { isSuccess ->
-//            if (isSuccess) {
-//                val action = LoginFragmentDirections.actionDashboardFragment()
-//                Navigation.findNavController(view).navigate(action)
-//            } else {
-//                Toast.makeText(context, "Username atau Password salah!", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-
+        //region login uts
+        //        viewModel.loginStatus.observe(viewLifecycleOwner, Observer { isSuccess ->
+        //            if (isSuccess) {
+        //                val action = LoginFragmentDirections.actionDashboardFragment()
+        //                Navigation.findNavController(view).navigate(action)
+        //            } else {
+        //                Toast.makeText(context, "Username atau Password salah!", Toast.LENGTH_SHORT).show()
+        //            }
+        //        }
+        //endregion
         observeViewModel()
     }
 
