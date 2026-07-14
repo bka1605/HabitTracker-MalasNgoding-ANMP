@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="habit"
+            type="com.anmp.habittracker_malasngoding_anmp.model.HabitModel"/>
+
+        <variable
+            name="listener"
+            type="com.anmp.habittracker_malasngoding_anmp.view.DashboardListener"/>
+    </data>
+<com.google.android.material.card.MaterialCardView
     android:id="@+id/cardHabit"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -53,20 +65,23 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
-            android:text="Drink Water"
+            android:text="@{habit.habitName}"
             android:textColor="#111827"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/tvStatus"
             app:layout_constraintStart_toEndOf="@+id/cardIcon"
-            app:layout_constraintTop_toTopOf="@+id/cardIcon" />
+            app:layout_constraintTop_toTopOf="@+id/cardIcon"
+            android:onClick="@{() -> listener.onHabitClick(habit)}"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <TextView
             android:id="@+id/tvHabitDesc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Stay hydrated throughout the day"
+            android:text="@{habit.shortDescription}"
             android:textColor="#6B7280"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/tvHabitName"
@@ -133,7 +148,8 @@
             app:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/progressHabit"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="@{() -> listener.onPlus(habit)}"/>
 
 
         <com.google.android.material.button.MaterialButton
@@ -157,7 +173,9 @@
             app:elevation="0dp"
             app:layout_constraintEnd_toStartOf="@+id/btnPlus"
             app:layout_constraintTop_toTopOf="@+id/btnPlus"
-            app:layout_constraintBottom_toBottomOf="@+id/btnPlus" />
+            app:layout_constraintBottom_toBottomOf="@+id/btnPlus"
+            android:onClick="@{() -> listener.onMinus(habit)}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
+</layout>

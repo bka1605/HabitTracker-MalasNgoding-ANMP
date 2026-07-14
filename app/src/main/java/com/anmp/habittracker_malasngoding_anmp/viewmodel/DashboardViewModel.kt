@@ -18,8 +18,7 @@ class DashboardViewModel(application: Application) :
 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
-            val habits = dao.getAllHabits()
-            habitListLD.postValue(habits)
+            habitListLD.postValue(dao.getAllHabits())
         }
     }
 
