@@ -34,30 +34,26 @@ class DashboardFragment : Fragment() {
         }
 
         viewModel = ViewModelProvider(this)[DashboardViewModel::class.java]
-
+        viewModel.habitListLD.observe(viewLifecycleOwner) {
+            adapter.setData(it)
+        }
         adapter = DashboardAdapter(
             onPlus = {
                 viewModel.addProgress(it)
-                loadHabits()
             },
             onMinus = {
                 viewModel.minusProgress(it)
-                loadHabits()
             }
         )
 
         binding.recViewDashboard.adapter = adapter
         binding.recViewDashboard.layoutManager = LinearLayoutManager(requireContext())
 
-        loadHabits()
+        viewModel.refresh()
+
     }
     override fun onResume() {
         super.onResume()
-        loadHabits()
-    }
-
-    private fun loadHabits() {
-        val habits = viewModel.getHabits()
-        adapter.setData(habits)
+        viewModel.refresh()
     }
 }

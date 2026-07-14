@@ -12,24 +12,23 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
     companion object {
-        @Volatile private var instance: AppDatabase? = null
+        @Volatile
+        private var instance: AppDatabase? = null
+
         private val LOCK = Any()
 
-        fun buildDatabase(context: Context) =
+        fun buildDatabase(context: Context): AppDatabase =
             Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
                 "habit_tracker_db"
             ).build()
 
-        operator fun invoke(context: Context) {
-            if (instance == null) {
-                synchronized(LOCK) {
-                    instance ?: buildDatabase(context).also {
-                        instance = it
-                    }
+        operator fun invoke(context: Context): AppDatabase =
+            instance ?: synchronized(LOCK) {
+                instance ?: buildDatabase(context).also {
+                    instance = it
                 }
             }
-        }
     }
 }

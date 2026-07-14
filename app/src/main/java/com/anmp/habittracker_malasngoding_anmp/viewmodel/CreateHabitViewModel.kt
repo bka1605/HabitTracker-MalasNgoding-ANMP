@@ -1,14 +1,25 @@
 package com.anmp.habittracker_malasngoding_anmp.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import com.anmp.habittracker_malasngoding_anmp.model.AppDatabase
 import com.anmp.habittracker_malasngoding_anmp.model.HabitModel
-import com.anmp.habittracker_malasngoding_anmp.model.HabitPreference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class CreateHabitViewModel(application: Application) : AndroidViewModel(application) {
+class CreateHabitViewModel(application: Application) :
+    AndroidViewModel(application) {
+
+    private val habitDao = AppDatabase(getApplication()).habitDao()
 
     fun saveHabit(habit: HabitModel) {
-        val pref = HabitPreference(getApplication())
-        pref.saveHabit(habit)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                habitDao.insertHabit(habit)
+            } catch (e: Exception) {
+            }
+        }
     }
 }

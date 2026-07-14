@@ -2,21 +2,46 @@ package com.anmp.habittracker_malasngoding_anmp.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.anmp.habittracker_malasngoding_anmp.model.AppDatabase
 import com.anmp.habittracker_malasngoding_anmp.model.HabitModel
-import com.anmp.habittracker_malasngoding_anmp.model.HabitPreference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class DashboardViewModel (application: Application) : AndroidViewModel(application){
-    private val pref = HabitPreference(getApplication())
+class DashboardViewModel(application: Application) :
+    AndroidViewModel(application) {
 
-    fun getHabits(): List<HabitModel> = pref.getHabits()
+    private val dao = AppDatabase(getApplication()).habitDao()
+
+    val habitListLD = MutableLiveData<List<HabitModel>>()
+
+    fun refresh() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val habits = dao.getAllHabits()
+            habitListLD.postValue(habits)
+        }
+    }
 
     fun addProgress(habit: HabitModel) {
-        val next = (habit.progress + 1).coerceAtMost(habit.goal)
-        pref.updateHabitProgress(habit.id, next)
+        viewModelScope.launch(Dispatchers.IO) {
+            habit.progress = (habit.progress + 1).coerceAtMost(habit.goal)
+            habit.isCompleted = habit.progress >= habit.goal
+
+            dao.updateHabit(habit)
+
+            habitListLD.postValue(dao.getAllHabits())
+        }
     }
 
     fun minusProgress(habit: HabitModel) {
-        val next = (habit.progress - 1).coerceAtLeast(0)
-        pref.updateHabitProgress(habit.id, next)
+        viewModelScope.launch(Dispatchers.IO) {
+            habit.progress = (habit.progress - 1).coerceAtLeast(0)
+            habit.isCompleted = habit.progress >= habit.goal
+
+            dao.updateHabit(habit)
+
+            habitListLD.postValue(dao.getAllHabits())
+        }
     }
 }
