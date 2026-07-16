@@ -18,7 +18,9 @@ class CreateHabitViewModel(application: Application) :
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 habitDao.insertHabit(habit)
+                Log.d("CreateHabitVM", "Berhasil insert: $habit")
             } catch (e: Exception) {
+                Log.d("CreateHabitVM", "Gagal insert: $habit")
             }
         }
     }
