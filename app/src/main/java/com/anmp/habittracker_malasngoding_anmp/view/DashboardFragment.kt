@@ -13,7 +13,7 @@ import com.anmp.habittracker_malasngoding_anmp.databinding.FragmentDashboardBind
 import com.anmp.habittracker_malasngoding_anmp.model.HabitModel
 import com.anmp.habittracker_malasngoding_anmp.viewmodel.DashboardViewModel
 
-class DashboardFragment : Fragment() {
+class DashboardFragment : Fragment(), HabitItemListener {
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var viewModel: DashboardViewModel
     private lateinit var adapter: DashboardAdapter
@@ -29,28 +29,25 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.fabAddHabit.setOnClickListener {
-            findNavController().navigate(R.id.actionHabitFragment)
-        }
-
         viewModel = ViewModelProvider(this)[DashboardViewModel::class.java]
 
-        adapter = DashboardAdapter(
-            onPlus = {
-                viewModel.addProgress(it)
-                loadHabits()
-            },
-            onMinus = {
-                viewModel.minusProgress(it)
-                loadHabits()
+        adapter = DashboardAdapter(arrayListOf(), this) { habit ->
+            val action = Bundle().apply {
+                putLong("HABIT_ID", habit.id)
             }
-        )
+            findNavController().navigate(R.id.actionHabitFragment, action)
+        }
 
         binding.recViewDashboard.adapter = adapter
         binding.recViewDashboard.layoutManager = LinearLayoutManager(requireContext())
 
+        binding.fabAddHabit.setOnClickListener {
+            findNavController().navigate(R.id.actionHabitFragment)
+        }
+
         loadHabits()
     }
+
     override fun onResume() {
         super.onResume()
         loadHabits()
@@ -59,5 +56,15 @@ class DashboardFragment : Fragment() {
     private fun loadHabits() {
         val habits = viewModel.getHabits()
         adapter.setData(habits)
+    }
+
+    override fun onPlusClick(v: View, habit: HabitModel) {
+        viewModel.addProgress(habit)
+        loadHabits()
+    }
+
+    override fun onMinusClick(v: View, habit: HabitModel) {
+        viewModel.minusProgress(habit)
+        loadHabits()
     }
 }

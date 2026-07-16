@@ -8,11 +8,10 @@ import com.anmp.habittracker_malasngoding_anmp.model.HabitModel
 import com.anmp.habittracker_malasngoding_anmp.R
 
 class DashboardAdapter (
-    private val onPlus: (HabitModel) -> Unit,
-    private val onMinus: (HabitModel) -> Unit
+    private val items: ArrayList<HabitModel>,
+    private val listener: HabitItemListener,
+    private val onTitleClick: (HabitModel) -> Unit
 ) : RecyclerView.Adapter<DashboardAdapter.HabitVH>() {
-    private val items = mutableListOf<HabitModel>()
-
     fun setData(data: List<HabitModel>) {
         items.clear()
         items.addAll(data)
@@ -35,12 +34,9 @@ class DashboardAdapter (
         val habit = items[position]
         val b = holder.binding
 
-        b.tvHabitName.text = habit.habitName
-        b.tvHabitDesc.text = habit.shortDescription
-        b.tvProgressValue.text = "${habit.progress} / ${habit.goal} ${habit.unit}"
+        b.habit = habit
+        b.listener = listener
 
-        b.progressHabit.max = habit.goal
-        b.progressHabit.progress = habit.progress
         when (habit.icon) {
             "Water" -> b.imageView2.setImageResource(R.drawable.water)
             "Fitness" -> b.imageView2.setImageResource(R.drawable.ic_fitness)
@@ -57,8 +53,9 @@ class DashboardAdapter (
             b.tvStatus.setBackgroundResource(com.anmp.habittracker_malasngoding_anmp.R.drawable.ic_background_in_progress)
         }
 
-        b.btnPlus.setOnClickListener { onPlus(habit) }
-        b.btnMinus.setOnClickListener { onMinus(habit) }
+        b.tvHabitName.setOnClickListener {
+            onTitleClick(habit)
+        }
     }
 
     override fun getItemCount(): Int = items.size

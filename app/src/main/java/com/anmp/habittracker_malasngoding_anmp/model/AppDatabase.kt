@@ -22,12 +22,10 @@ abstract class AppDatabase : RoomDatabase() {
                 "habit_tracker_db"
             ).build()
 
-        operator fun invoke(context: Context) {
-            if (instance == null) {
-                synchronized(LOCK) {
-                    instance ?: buildDatabase(context).also {
-                        instance = it
-                    }
+        operator fun invoke(context: Context): AppDatabase {
+            return instance ?: synchronized(LOCK) {
+                instance ?: buildDatabase(context).also {
+                    instance = it
                 }
             }
         }
