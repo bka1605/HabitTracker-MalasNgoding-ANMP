@@ -24,4 +24,12 @@ interface HabitDao {
 
     @Query("DELETE FROM habit")
     fun deleteAll()
+    @Query("SELECT * FROM habit WHERE id=:id")
+    fun selectHabit(id:Long): HabitModel
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(vararg habit:HabitModel)
+
+    @Update
+    fun updateHabit(habit: HabitModel)
 }

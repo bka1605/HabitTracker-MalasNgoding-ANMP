@@ -1,181 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <variable
-            name="habit"
-            type="com.anmp.habittracker_malasngoding_anmp.model.HabitModel"/>
-
-        <variable
-            name="listener"
-            type="com.anmp.habittracker_malasngoding_anmp.view.DashboardListener"/>
+        <variable name="habit" type="com.anmp.habittracker_malasngoding_anmp.model.HabitModel"/>
+        <variable name="listener" type="com.anmp.habittracker_malasngoding_anmp.view.HabitItemListener"/>
     </data>
-<com.google.android.material.card.MaterialCardView
-    android:id="@+id/cardHabit"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="10dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="2dp"
-    app:strokeColor="#1A000000"
-    app:strokeWidth="1dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardHabit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="10dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp"
+        app:strokeColor="#1A000000"
+        app:strokeWidth="1dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardIcon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            app:cardBackgroundColor="#EEF2FF"
-            app:cardCornerRadius="14dp"
-            app:cardElevation="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/app_name"
-                app:srcCompat="@drawable/water" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:id="@+id/tvStatus"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_background_in_progress"
-            android:text="In Progress"
-            android:textColor="#111827"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cardIcon" />
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvHabitName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:text="@{habit.habitName}"
-            android:textColor="#111827"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/tvStatus"
-            app:layout_constraintStart_toEndOf="@+id/cardIcon"
-            app:layout_constraintTop_toTopOf="@+id/cardIcon"
-            android:onClick="@{() -> listener.onHabitClick(habit)}"
-            android:clickable="true"
-            android:focusable="true"/>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                app:cardBackgroundColor="#EEF2FF"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tvHabitDesc"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@{habit.shortDescription}"
-            android:textColor="#6B7280"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/tvHabitName"
-            app:layout_constraintStart_toStartOf="@+id/tvHabitName"
-            app:layout_constraintTop_toBottomOf="@+id/tvHabitName" />
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/water" />
+            </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/tvProgressLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:text="Progress"
-            android:textColor="#6B7280"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/cardIcon"
-            app:layout_constraintTop_toBottomOf="@+id/tvHabitDesc" />
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_background_in_progress"
+                android:text="In Progress"
+                android:textColor="#111827"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/cardIcon" />
 
-        <TextView
-            android:id="@+id/tvProgressValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="3 / 8 glasses"
-            android:textColor="#111827"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@+id/tvProgressLabel"
-            app:layout_constraintBottom_toBottomOf="@+id/tvProgressLabel"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <TextView
+                android:id="@+id/tvHabitName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:text="@{habit.habitName}"
+                android:textColor="#111827"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/tvStatus"
+                app:layout_constraintStart_toEndOf="@+id/cardIcon"
+                app:layout_constraintTop_toTopOf="@+id/cardIcon"
+                android:onClick="@{() -> listener.onHabitClick(habit)}"
+                android:clickable="true"
+                android:focusable="true"/>
 
-        <ProgressBar
-            android:id="@+id/progressHabit"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="10dp"
-            android:layout_marginTop="10dp"
-            android:indeterminate="false"
-            android:max="8"
-            android:progress="3"
-            android:progressBackgroundTint="#E5E7EB"
-            android:progressTint="#4F46E5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/cardIcon"
-            app:layout_constraintTop_toBottomOf="@+id/tvProgressLabel" />
+            <TextView
+                android:id="@+id/tvHabitDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{habit.shortDescription}"
+                android:textColor="#6B7280"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvHabitName"
+                app:layout_constraintStart_toStartOf="@+id/tvHabitName"
+                app:layout_constraintTop_toBottomOf="@+id/tvHabitName" />
 
+            <TextView
+                android:id="@+id/tvProgressLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Progress"
+                android:textColor="#6B7280"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/cardIcon"
+                app:layout_constraintTop_toBottomOf="@+id/tvHabitDesc" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnPlus"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="14dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:text="+"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:backgroundTint="#4F46E5"
-            app:cornerRadius="24dp"
-            app:elevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressHabit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:onClick="@{() -> listener.onPlus(habit)}"/>
+            <TextView
+                android:id="@+id/tvProgressValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{String.valueOf(habit.progress) + " / " + String.valueOf(habit.goal) + " " + habit.unit}'
+                android:textColor="#111827"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@+id/tvProgressLabel"
+                app:layout_constraintBottom_toBottomOf="@+id/tvProgressLabel"
+                app:layout_constraintEnd_toEndOf="parent" />
 
+            <ProgressBar
+                android:id="@+id/progressHabit"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="10dp"
+                android:indeterminate="false"
+                android:max="@{habit.goal}"
+                android:progress="@{habit.progress}"
+                android:progressBackgroundTint="#E5E7EB"
+                android:progressTint="#4F46E5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/cardIcon"
+                app:layout_constraintTop_toBottomOf="@+id/tvProgressLabel" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnMinus"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="12dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            android:padding="0dp"
-            android:text="−"
-            android:textColor="#6B7280"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:backgroundTint="#F3F4F6"
-            app:cornerRadius="24dp"
-            app:elevation="0dp"
-            app:layout_constraintEnd_toStartOf="@+id/btnPlus"
-            app:layout_constraintTop_toTopOf="@+id/btnPlus"
-            app:layout_constraintBottom_toBottomOf="@+id/btnPlus"
-            android:onClick="@{() -> listener.onMinus(habit)}"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPlus"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="14dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="0dp"
+                android:text="+"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:onClick="@{(v) -> listener.onPlusClick(v, habit)}"
+                app:backgroundTint="#4F46E5"
+                app:cornerRadius="24dp"
+                app:elevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressHabit"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMinus"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="12dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="0dp"
+                android:text="−"
+                android:textColor="#6B7280"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:onClick="@{(v) -> listener.onMinusClick(v, habit)}"
+                app:backgroundTint="#F3F4F6"
+                app:cornerRadius="24dp"
+                app:elevation="0dp"
+                app:layout_constraintEnd_toStartOf="@+id/btnPlus"
+                app:layout_constraintTop_toTopOf="@+id/btnPlus"
+                app:layout_constraintBottom_toBottomOf="@+id/btnPlus" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
 </layout>

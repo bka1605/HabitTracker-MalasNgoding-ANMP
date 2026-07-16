@@ -7,10 +7,10 @@ import com.anmp.habittracker_malasngoding_anmp.databinding.DashboardItemListBind
 import com.anmp.habittracker_malasngoding_anmp.model.HabitModel
 import com.anmp.habittracker_malasngoding_anmp.R
 
-class DashboardAdapter (
-    private val listener: DashboardListener
+class DashboardAdapter(
+    private val items: ArrayList<HabitModel>,
+    private val listener: HabitItemListener
 ) : RecyclerView.Adapter<DashboardAdapter.HabitVH>() {
-    private val items = mutableListOf<HabitModel>()
 
     fun setData(data: List<HabitModel>) {
         items.clear()
@@ -36,11 +36,6 @@ class DashboardAdapter (
         b.habit = habit
         b.listener = listener
 
-        b.executePendingBindings()
-
-        b.tvProgressValue.text = "${habit.progress} / ${habit.goal} ${habit.unit}"
-        b.progressHabit.max = habit.goal
-        b.progressHabit.progress = habit.progress
         when (habit.icon) {
             "Water" -> b.imageView2.setImageResource(R.drawable.water)
             "Fitness" -> b.imageView2.setImageResource(R.drawable.ic_fitness)
@@ -51,10 +46,10 @@ class DashboardAdapter (
 
         if (habit.isCompleted) {
             b.tvStatus.text = "Completed"
-            b.tvStatus.setBackgroundResource(com.anmp.habittracker_malasngoding_anmp.R.drawable.ic_background_completed)
+            b.tvStatus.setBackgroundResource(R.drawable.ic_background_completed)
         } else {
             b.tvStatus.text = "In Progress"
-            b.tvStatus.setBackgroundResource(com.anmp.habittracker_malasngoding_anmp.R.drawable.ic_background_in_progress)
+            b.tvStatus.setBackgroundResource(R.drawable.ic_background_in_progress)
         }
     }
 

@@ -6,17 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.anmp.habittracker_malasngoding_anmp.R
 import com.anmp.habittracker_malasngoding_anmp.databinding.FragmentHabitBinding
 import com.anmp.habittracker_malasngoding_anmp.model.HabitModel
 import com.anmp.habittracker_malasngoding_anmp.viewmodel.CreateHabitViewModel
 
 class HabitFragment : Fragment() {
-    private var _binding: FragmentHabitBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentHabitBinding
     private lateinit var viewModel: CreateHabitViewModel
+
+    private var isEditMode=false
+    private var currentHabitId: Long = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,8 +28,7 @@ class HabitFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentHabitBinding.inflate(inflater, container, false)
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_habit, container, false)
         return binding.root
     }
 
@@ -35,47 +38,54 @@ class HabitFragment : Fragment() {
         viewModel = ViewModelProvider(this)[CreateHabitViewModel::class.java]
 
         val iconOptions = listOf("Fitness", "Water", "Study", "Meditation")
-
         val iconAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             iconOptions
         )
-
         binding.spinnerIcon.setAdapter(iconAdapter)
 
+        currentHabitId = arguments?.getLong("HABIT_ID") ?: 0L
 
-        binding.spinnerIcon.setText(iconOptions.first(), false)
+        if (currentHabitId > 0L) {
+            isEditMode = true
+            viewModel.fetchHabit(currentHabitId)
+        } else {
+            isEditMode = false
+            binding.habit = HabitModel(
+                id = System.currentTimeMillis(),
+                habitName = "",
+                shortDescription = "",
+                goal = 0,
+                unit = "",
+                icon = iconOptions.first()
+            )
+            binding.spinnerIcon.setText(iconOptions.first(), false)
+        }
+
+        viewModel.habitLD.observe(viewLifecycleOwner) { habit ->
+            binding.habit = habit
+            binding.etGoal.setText(habit.goal.toString())
+            binding.spinnerIcon.setText(habit.icon, false)
+        }
 
         binding.btnCreateHabit.setOnClickListener {
 
-            val name = binding.etHabitName.text.toString()
-            val desc = binding.etDescription.text.toString()
-            val goal = binding.etGoal.text.toString().toIntOrNull() ?: 0
-            val unit = binding.etUnit.text.toString()
-            val icon = binding.spinnerIcon.text.toString()
+            val habitData = binding.habit
 
-            val habit = HabitModel(
-                habitName = name,
-                shortDescription = desc,
-                goal = goal,
-                unit = unit,
-                icon = icon
-            )
+            if (habitData != null) {
+                habitData.goal = binding.etGoal.text.toString().toIntOrNull() ?: 0
+                habitData.icon = binding.spinnerIcon.text.toString()
 
-            viewModel.saveHabit(habit)
-
-            Toast.makeText(
-                requireContext(),
-                "Habit saved!",
-                Toast.LENGTH_LONG
-            ).show()
+                if (isEditMode) {
+                    viewModel.updateHabit(habitData)
+                    Toast.makeText(requireContext(), "Habit updated!", Toast.LENGTH_LONG).show()
+                } else {
+                    viewModel.saveHabit(habitData)
+                    Toast.makeText(requireContext(), "Habit saved!", Toast.LENGTH_LONG).show()
+                }
+            }
             findNavController().navigateUp()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

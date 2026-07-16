@@ -13,7 +13,7 @@ import com.anmp.habittracker_malasngoding_anmp.databinding.FragmentDashboardBind
 import com.anmp.habittracker_malasngoding_anmp.model.HabitModel
 import com.anmp.habittracker_malasngoding_anmp.viewmodel.DashboardViewModel
 
-class DashboardFragment : Fragment() {
+class DashboardFragment : Fragment(), HabitItemListener {
 
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var viewModel: DashboardViewModel
@@ -31,36 +31,20 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.fabAddHabit.setOnClickListener {
-            findNavController().navigate(R.id.actionHabitFragment)
-        }
-
         viewModel = ViewModelProvider(this)[DashboardViewModel::class.java]
 
-        adapter = DashboardAdapter(
-            object : DashboardListener {
-
-                override fun onPlus(habit: HabitModel) {
-                    viewModel.addProgress(habit)
-                }
-
-                override fun onMinus(habit: HabitModel) {
-                    viewModel.minusProgress(habit)
-                }
-
-                override fun onHabitClick(habit: HabitModel) {
-                    // Nunggu implementasi EditHabitFragment
-                }
-            }
-        )
+        adapter = DashboardAdapter(arrayListOf(), this)
 
         viewModel.habitListLD.observe(viewLifecycleOwner) { habits ->
             adapter.setData(habits)
         }
 
-        binding.recViewDashboard.layoutManager =
-            LinearLayoutManager(requireContext())
+        binding.recViewDashboard.layoutManager = LinearLayoutManager(requireContext())
         binding.recViewDashboard.adapter = adapter
+
+        binding.fabAddHabit.setOnClickListener {
+            findNavController().navigate(R.id.actionHabitFragment)
+        }
 
         viewModel.refresh()
     }
@@ -68,5 +52,20 @@ class DashboardFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.refresh()
+    }
+
+    override fun onPlusClick(v: View, habit: HabitModel) {
+        viewModel.addProgress(habit)
+    }
+
+    override fun onMinusClick(v: View, habit: HabitModel) {
+        viewModel.minusProgress(habit)
+    }
+
+    override fun onHabitClick(habit: HabitModel) {
+        val action = Bundle().apply {
+            putLong("HABIT_ID", habit.id)
+        }
+        findNavController().navigate(R.id.actionHabitFragment, action)
     }
 }
