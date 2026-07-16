@@ -24,22 +24,29 @@ class DashboardViewModel(application: Application) :
 
     fun addProgress(habit: HabitModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            habit.progress = (habit.progress + 1).coerceAtMost(habit.goal)
+            habit.progress = habit.progress.coerceIn(0, habit.goal)
+
+            if (habit.progress < habit.goal) {
+                habit.progress++
+            }
+
             habit.isCompleted = habit.progress >= habit.goal
-
             dao.updateHabit(habit)
-
             habitListLD.postValue(dao.getAllHabits())
         }
     }
 
     fun minusProgress(habit: HabitModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            habit.progress = (habit.progress - 1).coerceAtLeast(0)
+
+            habit.progress = habit.progress.coerceIn(0, habit.goal)
+
+            if (habit.progress > 0) {
+                habit.progress--
+            }
+
             habit.isCompleted = habit.progress >= habit.goal
-
             dao.updateHabit(habit)
-
             habitListLD.postValue(dao.getAllHabits())
         }
     }

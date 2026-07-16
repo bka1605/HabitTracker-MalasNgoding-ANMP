@@ -77,6 +77,12 @@ class HabitFragment : Fragment() {
                 habitData.goal = binding.etGoal.text.toString().toIntOrNull() ?: 0
                 habitData.icon = binding.spinnerIcon.text.toString()
 
+                if (habitData.progress > habitData.goal) {
+                    habitData.progress = habitData.goal
+                }
+
+                habitData.isCompleted = habitData.progress >= habitData.goal
+
                 if (isEditMode) {
                     viewModel.updateHabit(habitData)
                     Toast.makeText(requireContext(), "Habit updated!", Toast.LENGTH_LONG).show()
