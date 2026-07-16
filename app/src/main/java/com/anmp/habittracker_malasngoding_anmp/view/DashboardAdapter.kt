@@ -44,7 +44,8 @@ class DashboardAdapter(
             else -> b.imageView2.setImageResource(R.drawable.ic_launcher_foreground)
         }
 
-        if (habit.isCompleted) {
+        val isCompleted = habit.progress >= habit.goal
+        if (isCompleted) {
             b.tvStatus.text = "Completed"
             b.tvStatus.setBackgroundResource(R.drawable.ic_background_completed)
         } else {

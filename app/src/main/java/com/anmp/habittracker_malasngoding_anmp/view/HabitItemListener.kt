@@ -6,4 +6,5 @@ import com.anmp.habittracker_malasngoding_anmp.model.HabitModel
 interface HabitItemListener {
     fun onPlusClick(v: View, habit: HabitModel)
     fun onMinusClick(v: View, habit: HabitModel)
+    fun onHabitClick(habit: HabitModel)
 }

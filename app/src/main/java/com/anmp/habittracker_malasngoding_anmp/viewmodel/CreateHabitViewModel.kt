@@ -13,14 +13,16 @@ import kotlinx.coroutines.launch
 class CreateHabitViewModel(application: Application) :
     AndroidViewModel(application) {
 
-    private val habitDao = AppDatabase.getDatabase(getApplication()).habitDao()
+    private val habitDao = AppDatabase(getApplication()).habitDao()
 
     val habitLD = MutableLiveData<HabitModel>()
 
     fun fetchHabit(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             val habit = habitDao.getHabit(id)
-            habitLD.postValue(habit)
+            habit?.let {
+                habitLD.postValue(it)
+            }
         }
     }
 

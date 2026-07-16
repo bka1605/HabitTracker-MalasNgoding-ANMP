@@ -16,9 +16,6 @@ interface HabitDao {
     @Query("SELECT * FROM habit ORDER BY id ASC")
     fun getAllHabits(): List<HabitModel>
 
-    @Update
-    fun updateHabit(habit: HabitModel)
-
     @Query("SELECT * FROM habit WHERE id = :id")
     fun getHabit(id: Long): HabitModel?
 
