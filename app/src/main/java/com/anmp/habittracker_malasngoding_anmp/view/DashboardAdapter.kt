@@ -7,11 +7,11 @@ import com.anmp.habittracker_malasngoding_anmp.databinding.DashboardItemListBind
 import com.anmp.habittracker_malasngoding_anmp.model.HabitModel
 import com.anmp.habittracker_malasngoding_anmp.R
 
-class DashboardAdapter (
+class DashboardAdapter(
     private val items: ArrayList<HabitModel>,
-    private val listener: HabitItemListener,
-    private val onTitleClick: (HabitModel) -> Unit
+    private val listener: HabitItemListener
 ) : RecyclerView.Adapter<DashboardAdapter.HabitVH>() {
+
     fun setData(data: List<HabitModel>) {
         items.clear()
         items.addAll(data)
@@ -33,7 +33,6 @@ class DashboardAdapter (
     override fun onBindViewHolder(holder: HabitVH, position: Int) {
         val habit = items[position]
         val b = holder.binding
-
         b.habit = habit
         b.listener = listener
 
@@ -47,14 +46,10 @@ class DashboardAdapter (
 
         if (habit.isCompleted) {
             b.tvStatus.text = "Completed"
-            b.tvStatus.setBackgroundResource(com.anmp.habittracker_malasngoding_anmp.R.drawable.ic_background_completed)
+            b.tvStatus.setBackgroundResource(R.drawable.ic_background_completed)
         } else {
             b.tvStatus.text = "In Progress"
-            b.tvStatus.setBackgroundResource(com.anmp.habittracker_malasngoding_anmp.R.drawable.ic_background_in_progress)
-        }
-
-        b.tvHabitName.setOnClickListener {
-            onTitleClick(habit)
+            b.tvStatus.setBackgroundResource(R.drawable.ic_background_in_progress)
         }
     }
 

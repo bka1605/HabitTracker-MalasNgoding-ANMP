@@ -1,43 +1,43 @@
 package com.anmp.habittracker_malasngoding_anmp.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.anmp.habittracker_malasngoding_anmp.model.AppDatabase
 import com.anmp.habittracker_malasngoding_anmp.model.HabitModel
-import com.anmp.habittracker_malasngoding_anmp.model.HabitPreference
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
-class CreateHabitViewModel(application: Application) : AndroidViewModel(application), CoroutineScope {
+class CreateHabitViewModel(application: Application) :
+    AndroidViewModel(application) {
+
+    private val habitDao = AppDatabase.getDatabase(getApplication()).habitDao()
+
     val habitLD = MutableLiveData<HabitModel>()
-    private var job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = job + Dispatchers.IO
 
     fun fetchHabit(id: Long) {
-        launch {
-            val db = AppDatabase.buildDatabase(getApplication())
-            val habit = db.habitDao().selectHabit(id)
+        viewModelScope.launch(Dispatchers.IO) {
+            val habit = habitDao.getHabit(id)
             habitLD.postValue(habit)
         }
     }
 
     fun saveHabit(habit: HabitModel) {
-        launch {
-            val db = AppDatabase.buildDatabase(getApplication())
-            db.habitDao().insertAll(habit)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                habitDao.insertHabit(habit)
+                Log.d("CreateHabitVM", "Berhasil insert: $habit")
+            } catch (e: Exception) {
+                Log.e("CreateHabitVM", "Gagal insert: ${e.message}")
+            }
         }
     }
 
     fun updateHabit(habit: HabitModel) {
-        launch {
-            val db = AppDatabase.buildDatabase(getApplication())
-            db.habitDao().updateHabit(habit)
+        viewModelScope.launch(Dispatchers.IO) {
+            habitDao.updateHabit(habit)
         }
     }
 }
